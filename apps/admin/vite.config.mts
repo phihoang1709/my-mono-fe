@@ -1,13 +1,12 @@
 /// <reference types='vitest' />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import * as path from 'path';
 
 export default defineConfig(() => ({
   root: import.meta.dirname,
-  cacheDir: '../../node_modules/.vite/apps/portal',
+  cacheDir: '../../node_modules/.vite/apps/admin',
   server: {
-    port: 4200,
+    port: 4300,
     host: 'localhost',
   },
   preview: {
@@ -15,11 +14,6 @@ export default defineConfig(() => ({
     host: 'localhost',
   },
   plugins: [react()],
-  resolve: {
-    alias: {
-      '@': path.resolve(import.meta.dirname, '../../libs/shared/ui/src'),
-    },
-  },
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [],
@@ -30,18 +24,6 @@ export default defineConfig(() => ({
     reportCompressedSize: true,
     commonjsOptions: {
       transformMixedEsModules: true,
-    },
-  },
-  test: {
-    name: '@my-mono-fe/portal',
-    watch: false,
-    globals: true,
-    environment: 'jsdom',
-    include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    reporters: ['default'],
-    coverage: {
-      reportsDirectory: './test-output/vitest/coverage',
-      provider: 'v8' as const,
     },
   },
 }));

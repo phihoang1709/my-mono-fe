@@ -5,6 +5,12 @@
   "references": [
     {
       "path": "./apps/portal"
+    },
+    {
+      "path": "./apps/admin"
+    },
+    {
+      "path": "./libs/shared/ui"
     }
   ]
 }

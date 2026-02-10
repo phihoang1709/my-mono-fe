@@ -1,4 +1,10 @@
 packages:
-  - "apps/*"
-
+  - 'apps/*'
+  - 'admin'
+  - 'libs/shared/*'
 autoInstallPeers: true
+onlyBuiltDependencies:
+  - '@go-task/cli'
+  - '@swc/core'
+  - 'esbuild'
+  - 'nx'

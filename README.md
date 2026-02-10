@@ -1,82 +1,140 @@
 # MyMonoFe
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+React monorepo using Nx, pnpm and Vite, including:
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+- `apps/portal`: main frontend portal
+- `apps/admin`: admin application
+- `libs/shared/ui`: shared UI library, built as `@my-mono-fe/ui` (shadcn + Tailwind)
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+The codebase is managed with a pnpm workspace and orchestrated by Nx. Common commands are grouped in `Taskfile.yml` and invoked via the `task` CLI.
 
-## Finish your remote caching setup
+---
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/C4Z7F6QmA4)
+## Tech stack
 
+- **Nx 22** – monorepo management, build/test/lint orchestration
+- **React 19**, **React Router 6**
+- **Vite 7** – bundler for `portal` and `admin`
+- **pnpm** – workspace package manager
+- **TailwindCSS** + **shadcn/ui** (in `libs/shared/ui`)
+- **TypeScript 5.9**, **ESLint**, **Prettier**
+- **Husky + commitlint** – conventional commits (`"prepare": "husky"` in `package.json`)
+- **go-task (`Taskfile.yml`)** – thin wrapper around common Nx/pnpm commands
 
-## Run tasks
+---
 
-To run the dev server for your app, use:
-
-```sh
-npx nx serve portal
-```
-
-To create a production bundle:
-
-```sh
-npx nx build portal
-```
-
-To see all available targets to run for a project, run:
+## Installation
 
 ```sh
-npx nx show project portal
+pnpm install
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
-
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
+If Husky is not initialized yet:
 
 ```sh
-npx nx g @nx/react:app demo
+pnpm prepare
 ```
 
-To generate a new library, use:
+---
+
+## Development
+
+Use `task` instead of memorizing individual Nx commands:
 
 ```sh
-npx nx g @nx/react:lib mylib
+# Portal (default)
+task dev
+
+# Or specify the app
+task dev APP=portal
+task dev APP=admin
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+Default dev servers:
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+- `portal`: http://localhost:4200/
+- `admin`: http://localhost:4300/
 
+---
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Build
 
-## Install Nx Console
+```sh
+# Build default app (portal)
+task build
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+# Build specific app
+task build APP=portal
+task build APP=admin
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+# Build all projects
+task build:all
+```
 
-## Useful links
+Build Docker image for the app (using the root `Dockerfile`, currently building `portal`):
 
-Learn more:
+```sh
+task docker:build          # APP=portal (default)
+task docker:run            # run container locally, map HOST=8080 -> container:80
+```
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Test, lint, typecheck
+
+```sh
+# Test
+task test                  # test default app
+task test APP=admin
+task test:all              # test all projects
+
+# Lint
+task lint                  # lint default app
+task lint APP=admin
+task lint:all
+
+# Typecheck
+task typecheck
+```
+
+---
+
+## Generate app/lib/component (Nx generators)
+
+These commands wrap `nx g` for convenience:
+
+```sh
+# Create a new React app in the monorepo
+task new:app NAME=my-new-app
+
+# Create a new React library
+task new:lib NAME=my-shared-lib
+
+# Create a new React component in a project (e.g. portal)
+task new:cmp NAME=Button PROJECT=portal
+```
+
+If you prefer using Nx directly instead of `task`:
+
+```sh
+pnpm nx g @nx/react:app demo
+pnpm nx g @nx/react:lib mylib
+```
+
+---
+
+## Project structure
+
+- `apps/portal` – main app, uses shadcn UI from `@my-mono-fe/ui`
+- `apps/admin` – admin app
+- `libs/shared/ui` – shared UI library, exported as the `@my-mono-fe/ui` package
+- `Taskfile.yml` – central place for dev/build/test/lint/generate commands
+- `Dockerfile` + `nginx.conf` – build and serve `portal` as a static site via NGINX
+
+---
+
+## Additional Nx resources
+
+- Getting started with Nx React monorepos: https://nx.dev/getting-started/tutorials/react-monorepo-tutorial
+- Running tasks with Nx: https://nx.dev/features/run-tasks
+- Generators & plugins: https://nx.dev/concepts/nx-plugins

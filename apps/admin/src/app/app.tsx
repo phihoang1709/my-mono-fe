@@ -1,21 +1,8 @@
-import { Button } from '@/components/ui/button';
 import { Route, Routes, Link } from 'react-router-dom';
 
 export function App() {
   return (
     <div>
-      {/* <NxWelcome title="@my-mono-fe/portal" /> */}
-      <div className="flex items-center gap-4 p-4">
-        <Button variant="default" className=" text-primary-foreground">Primary button</Button>
-        <Button variant="outline">Outline button</Button>
-      </div>
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
       <div role="navigation">
         <ul>
           <li>

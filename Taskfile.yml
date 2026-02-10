@@ -1,0 +1,114 @@
+version: '3'
+
+vars:
+  # Default app if not specified
+  DEFAULT_APP: portal
+
+tasks:
+  default:
+    desc: "List all available tasks"
+    cmds:
+      - task --list
+
+  setup:
+    desc: "Install dependencies via pnpm"
+    cmds:
+      - pnpm install
+
+  # --- DEVELOPMENT ---
+  'new:app':
+    desc: "Generate a new React app. Usage: task new:app NAME=my-app"
+    cmds:
+      - pnpm nx g @nx/react:app {{.NAME}}
+
+  'new:lib':
+    desc: "Generate a new React library. Usage: task new:lib NAME=my-lib"
+    cmds:
+      - pnpm nx g @nx/react:lib {{.NAME}}
+
+  'new:cmp':
+    desc: "Generate a new React component. Usage: task new:cmp NAME=button PROJECT=portal"
+    cmds:
+      - pnpm nx g @nx/react:component {{.NAME}} --project={{.PROJECT}}
+
+  # --- DEVELOPMENT ---
+  dev:
+    desc: "Start dev server. Usage: task dev [APP=admin] (default: {{.DEFAULT_APP}})"
+    cmds:
+      - pnpm nx serve {{.APP | default .DEFAULT_APP}}
+
+  # --- TESTING & LINTING ---
+  test:
+    desc: "Run tests. Usage: task test [APP=admin] or task test (runs default)"
+    cmds:
+      - pnpm nx test {{.APP | default .DEFAULT_APP}}
+
+  'test:all':
+    desc: "Run tests for ALL projects"
+    cmds:
+      - pnpm nx run-many -t test
+
+  lint:
+    desc: "Lint a specific app. Usage: task lint [APP=admin]"
+    cmds:
+      - pnpm nx lint {{.APP | default .DEFAULT_APP}}
+
+  'lint:all':
+    desc: "Lint ALL projects"
+    cmds:
+      - pnpm nx run-many -t lint
+
+  # --- UTILITIES ---
+  typecheck:
+    desc: "Run typechecking"
+    cmds:
+      - pnpm nx run-many -t typecheck
+
+  graph:
+    desc: "Open Nx dependency graph"
+    cmds:
+      - pnpm nx graph
+
+  format:
+    desc: "Format code using Prettier/Nx"
+    cmds:
+      - pnpm nx format:write
+
+  clean:
+    desc: "Clear Nx cache and node_modules (Hard reset, Windows)"
+    cmds:
+      - cmd: rm -rf node_modules
+        platforms: [linux, darwin] # Mac/Linux
+      - cmd: rmdir /s /q node_modules
+        platforms: [windows]       # Windows
+
+  # --- BUILDING ---
+  build:
+    desc: "Build a specific app. Usage: task build [APP=admin]"
+    cmds:
+      - pnpm nx build {{.APP | default .DEFAULT_APP}}
+
+  'build:all':
+    desc: "Build ALL applications and libraries affected"
+    cmds:
+      - pnpm nx run-many -t build
+  
+  # --- DOCKER ---
+  'docker:build':
+    desc: "Build Docker image. Usage: task docker:build [APP=admin]"
+    vars:
+      TARGET_APP: '{{.APP | default .DEFAULT_APP}}'
+      IMAGE_TAG: 'my-org/{{.TARGET_APP}}:latest'
+    cmds:
+      - echo "Building Docker image for {{.TARGET_APP}}..."
+      - docker build -t {{.IMAGE_TAG}} --build-arg APP_NAME={{.TARGET_APP}} .
+
+  'docker:run':
+    desc: "Run Docker container locally to test. Usage: task docker:run [APP=admin] [PORT=8080]"
+    vars:
+      TARGET_APP: '{{.APP | default .DEFAULT_APP}}'
+      IMAGE_TAG: 'my-org/{{.TARGET_APP}}:latest'
+      HOST_PORT: '{{.PORT | default 8080}}'
+    cmds:
+      - echo "🚀 Running {{.TARGET_APP}} at http://localhost:{{.HOST_PORT}}"
+      - docker run --rm -it -p {{.HOST_PORT}}:80 {{.IMAGE_TAG}}
