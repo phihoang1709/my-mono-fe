@@ -64,6 +64,11 @@ tasks:
     cmds:
       - pnpm nx run-many -t typecheck
 
+  'rtk:codegen':
+    desc: "Generate RTK Query API from OpenAPI schema"
+    cmds:
+      - pnpm rtk:codegen
+
   graph:
     desc: "Open Nx dependency graph"
     cmds:

@@ -11,6 +11,12 @@
     },
     {
       "path": "./libs/shared/ui"
+    },
+    {
+      "path": "./libs/shared/state"
+    },
+    {
+      "path": "./libs/shared/env"
     }
   ]
 }

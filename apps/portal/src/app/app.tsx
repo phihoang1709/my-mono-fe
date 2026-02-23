@@ -1,18 +1,26 @@
 import { Button } from '@/components/ui/button';
 import { Route, Routes, Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { toggleSidebar } from '../store/uiSlice';
 
 export function App() {
+  const dispatch = useAppDispatch();
+  const sidebarOpen = useAppSelector(state => state.ui.sidebarOpen);
+
   return (
     <div>
-      {/* <NxWelcome title="@my-mono-fe/portal" /> */}
       <div className="flex items-center gap-4 p-4">
-        <Button variant="default" className=" text-primary-foreground">Primary button</Button>
+        <Button variant="link" className="bg-red-500 text-white">Primary button</Button>
         <Button variant="outline">Outline button</Button>
       </div>
 
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
+      <div className="p-4 space-y-2">
+        <div>Sidebar is {sidebarOpen ? 'open' : 'closed'}</div>
+        <Button variant="outline" onClick={() => dispatch(toggleSidebar())}>
+          Toggle sidebar
+        </Button>
+      </div>
+
       <br />
       <hr />
       <br />

@@ -18,6 +18,14 @@ export default defineConfig(() => ({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, '../../libs/shared/ui/src'),
+      '@my-mono-fe/shared/state': path.resolve(
+        import.meta.dirname,
+        '../../libs/shared/state/src',
+      ),
+      '@my-mono-fe/shared/env': path.resolve(
+        import.meta.dirname,
+        '../../libs/shared/env/src',
+      ),
     },
   },
   // Uncomment this if you are using workers.

@@ -4,12 +4,14 @@
   "license": "MIT",
   "scripts": {
     "prepare": "husky",
-    "test": "pnpm nx run-many -t test"
+    "test": "pnpm nx run-many -t test",
+    "rtk:codegen": "rtk-query-codegen-openapi --config rtk-query-codegen.config.ts"
   },
   "private": true,
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
     "@reduxjs/toolkit": "^2.11.2",
+    "@rtk-query/codegen-openapi": "^2.2.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
