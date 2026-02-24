@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "rootDir": "../../",
     "outDir": "dist",
     "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
     "jsx": "react-jsx",
@@ -10,8 +11,7 @@
       "@nx/react/typings/cssmodule.d.ts",
       "@nx/react/typings/image.d.ts",
       "vite/client"
-    ],
-    "rootDir": "src"
+    ]
   },
   "exclude": [
     "out-tsc",
@@ -32,13 +32,19 @@
     "eslint.config.cjs",
     "eslint.config.mjs"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
-  "references": [
-    {
-      "path": "../../libs/shared/ui/tsconfig.lib.json"
-    },
-    {
-      "path": "../../libs/shared/state/tsconfig.lib.json"
-    }
-  ]
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "../../libs/shared/state/src/**/*.js",
+    "../../libs/shared/state/src/**/*.jsx",
+    "../../libs/shared/state/src/**/*.ts",
+    "../../libs/shared/state/src/**/*.tsx",
+    "../../libs/shared/env/src/**/*.js",
+    "../../libs/shared/env/src/**/*.jsx",
+    "../../libs/shared/env/src/**/*.ts",
+    "../../libs/shared/env/src/**/*.tsx"
+  ],
+  "references": []
 }
