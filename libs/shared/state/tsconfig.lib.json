@@ -1,12 +1,9 @@
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": false,
-    "declarationMap": false,
-    "emitDeclarationOnly": false,
     "outDir": "dist",
     "types": ["node"],
-    "rootDir": "../../../",
+    "rootDir": "src",
     "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
     "ignoreDeprecations": "6.0"
   },
@@ -25,5 +22,10 @@
     "eslint.config.cjs",
     "eslint.config.mjs"
   ],
-  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"],
+  "references": [
+    {
+      "path": "../env/tsconfig.lib.json"
+    }
+  ]
 }

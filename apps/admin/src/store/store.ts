@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { authReducer, baseApi } from '@my-mono-fe/shared/state';
+import { authReducer, baseApi } from '@my-mono-fe/state';
 import uiReducer from './uiSlice';
 
 export const store = configureStore({

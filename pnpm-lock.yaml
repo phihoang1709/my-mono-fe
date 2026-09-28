@@ -342,11 +342,43 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@24.19.0)(@vitest/coverage-v8@4.1.11)(@vitest/ui@4.1.11)(jsdom@30.1.1)(vite@8.3.1(@types/node@24.19.0)(jiti@2.7.0)(yaml@2.9.0))
 
-  apps/admin: {}
+  apps/admin:
+    dependencies:
+      '@my-mono-fe/env':
+        specifier: workspace:*
+        version: link:../../libs/shared/env
+      '@my-mono-fe/state':
+        specifier: workspace:*
+        version: link:../../libs/shared/state
+      '@my-mono-fe/ui':
+        specifier: workspace:*
+        version: link:../../libs/shared/ui
 
-  apps/portal: {}
+  apps/portal:
+    dependencies:
+      '@my-mono-fe/env':
+        specifier: workspace:*
+        version: link:../../libs/shared/env
+      '@my-mono-fe/state':
+        specifier: workspace:*
+        version: link:../../libs/shared/state
+      '@my-mono-fe/ui':
+        specifier: workspace:*
+        version: link:../../libs/shared/ui
+
+  libs/shared/constants: {}
+
+  libs/shared/env: {}
+
+  libs/shared/state:
+    dependencies:
+      '@my-mono-fe/env':
+        specifier: workspace:*
+        version: link:../env
 
   libs/shared/ui: {}
+
+  libs/shared/utils: {}
 
 packages:
 

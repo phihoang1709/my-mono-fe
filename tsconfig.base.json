@@ -18,7 +18,6 @@
     "target": "es2022",
     "customConditions": ["@my-mono-fe/source"],
     "paths": {
-      "@my-mono-fe/*": ["./libs/*/src"],
       "@/components/*": ["./libs/shared/ui/src/components/*"],
       "@/lib/utils": ["./libs/shared/ui/src/lib/utils.ts"]
     },
