@@ -1,4 +1,4 @@
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 RUN apk update && apk upgrade --no-cache
 RUN apk add --no-cache python3 make g++

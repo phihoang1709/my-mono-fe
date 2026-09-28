@@ -54,3 +54,11 @@ vitest.config.*.timestamp*
 .env.*.local
 !.env.example
 !.env.test
+
+.claude/worktrees
+.claude/settings.local.json
+.nx/polygraph
+.nx/self-healing
+.nx/migrate-runs
+# Nx one-off migration prompts
+tools/ai-migrations/

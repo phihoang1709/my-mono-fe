@@ -18,5 +18,8 @@
     {
       "path": "./libs/shared/env"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
 }
