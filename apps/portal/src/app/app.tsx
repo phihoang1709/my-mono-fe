@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Route, Routes, Link } from 'react-router-dom';
+import { Route, Routes, Link } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { toggleSidebar } from '../store/uiSlice';
 
