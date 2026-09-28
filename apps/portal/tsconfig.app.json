@@ -50,5 +50,9 @@
     "../../libs/shared/ui/src/**/*.ts",
     "../../libs/shared/ui/src/**/*.tsx"
   ],
-  "references": []
+  "references": [
+    {
+      "path": "../../libs/shared/ui/tsconfig.lib.json"
+    }
+  ]
 }

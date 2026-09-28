@@ -47,6 +47,10 @@ export default defineConfig(() => ({
     environment: 'jsdom',
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     reporters: ['default'],
+    env: {
+      VITE_API_BASE_URL: 'http://localhost:3000',
+      VITE_API_OPENAPI_URL: 'http://localhost:3000/openapi.json',
+    },
     coverage: {
       reportsDirectory: './test-output/vitest/coverage',
       provider: 'v8' as const,
