@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { env } from '@my-mono-fe/shared/env';
+import { env } from '@my-mono-fe/env';
 
 export const baseApi = createApi({
   reducerPath: 'api',

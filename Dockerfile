@@ -1,4 +1,4 @@
-FROM node:22-alpine AS builder
+FROM node:24-alpine AS builder
 
 RUN apk update && apk upgrade --no-cache
 RUN apk add --no-cache python3 make g++
@@ -34,7 +34,8 @@ ARG APP_NAME=portal
 # Copy config nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=builder /app/dist/apps/${APP_NAME} /usr/share/nginx/html
+# Vite build output lives at apps/${APP_NAME}/dist (vite.config outDir './dist')
+COPY --from=builder /app/apps/${APP_NAME}/dist /usr/share/nginx/html
 
 EXPOSE 80
 

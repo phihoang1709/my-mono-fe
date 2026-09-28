@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
-import { Route, Routes, Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { toggleSidebar } from '../store/uiSlice';
+import { Route, Routes, Link } from 'react-router';
+import { useAppDispatch, useAppSelector, toggleSidebar } from '@my-mono-fe/state';
 
 export function App() {
   const dispatch = useAppDispatch();

@@ -1,24 +1,30 @@
 # MyMonoFe
 
-React monorepo using Nx, pnpm and Vite, including:
+React monorepo using Nx 23, pnpm 12 and Vite 8, including:
 
 - `apps/portal`: main frontend portal
 - `apps/admin`: admin application
-- `libs/shared/ui`: shared UI library, built as `@my-mono-fe/ui` (shadcn + Tailwind)
+- `libs/shared/{env,state,ui,constants,utils}`: shared workspace packages
+  (`@my-mono-fe/*`), with shadcn/ui + Tailwind v4 in `libs/shared/ui`
 
-The codebase is managed with a pnpm workspace and orchestrated by Nx. Common commands are grouped in `Taskfile.yml` and invoked via the `task` CLI.
+The codebase is managed with a pnpm workspace and orchestrated by Nx. Common
+commands are grouped in `Taskfile.yml` and invoked via the `task` CLI.
 
 ---
 
 ## Tech stack
 
-- **Nx 22** – monorepo management, build/test/lint orchestration
-- **React 19**, **React Router 6**
-- **Vite 7** – bundler for `portal` and `admin`
-- **pnpm** – workspace package manager
-- **TailwindCSS** + **shadcn/ui** (in `libs/shared/ui`)
-- **TypeScript 5.9**, **ESLint**, **Prettier**
-- **Husky + commitlint** – conventional commits (`"prepare": "husky"` in `package.json`)
+- **Node 24** (`.nvmrc`, `engines`) + **pnpm 12** (`packageManager` — CI and
+  corepack pick it up automatically)
+- **Nx 23** – monorepo management, inferred targets (`lint/test/build/typecheck`)
+- **React 19**, **React Router 8** (`react-router` package)
+- **Vite 8** – bundler for `portal` and `admin`
+- **Tailwind CSS v4** (CSS-first, tokens in `libs/shared/ui/src/index.css`) +
+  **shadcn/ui**
+- **Redux Toolkit** – single `createAppStore()` factory + RTK Query in
+  `@my-mono-fe/state`
+- **TypeScript 6.0**, **ESLint 10**, **Prettier**
+- **Husky + commitlint** – conventional commits (`"prepare": "husky"`)
 - **go-task (`Taskfile.yml`)** – thin wrapper around common Nx/pnpm commands
 
 ---
@@ -29,7 +35,8 @@ The codebase is managed with a pnpm workspace and orchestrated by Nx. Common com
 pnpm install
 ```
 
-If Husky is not initialized yet:
+pnpm is pinned via the `packageManager` field — any pnpm ≥ 10 switches to the
+pinned version automatically. If Husky is not initialized yet:
 
 ```sh
 pnpm prepare
@@ -50,10 +57,10 @@ task dev APP=portal
 task dev APP=admin
 ```
 
-Default dev servers:
+Dev servers (host: `localhost`):
 
-- `portal`: http://localhost:4200/
-- `admin`: http://localhost:4300/
+- `portal`: http://localhost:4200/ (preview: 4201)
+- `admin`: http://localhost:4300/ (preview: 4301)
 
 ---
 
@@ -71,7 +78,8 @@ task build APP=admin
 task build:all
 ```
 
-Build Docker image for the app (using the root `Dockerfile`, currently building `portal`):
+Build Docker image for the app (using the root `Dockerfile`, currently building
+`portal`):
 
 ```sh
 task docker:build          # APP=portal (default)
@@ -83,6 +91,9 @@ task docker:run            # run container locally, map HOST=8080 -> container:8
 ## Test, lint, typecheck
 
 ```sh
+# Everything (what CI runs)
+pnpm exec nx run-many -t lint test build typecheck
+
 # Test
 task test                  # test default app
 task test APP=admin
@@ -96,6 +107,9 @@ task lint:all
 # Typecheck
 task typecheck
 ```
+
+After adding or moving cross-project imports, run `pnpm exec nx sync` so the
+TypeScript project references stay in sync.
 
 ---
 
@@ -114,22 +128,26 @@ task new:lib NAME=my-shared-lib
 task new:cmp NAME=Button PROJECT=portal
 ```
 
-If you prefer using Nx directly instead of `task`:
-
-```sh
-pnpm nx g @nx/react:app demo
-pnpm nx g @nx/react:lib mylib
-```
+New libs under `libs/shared/<name>` need a `package.json` (see
+`AGENTS.md` §3) to become a workspace package.
 
 ---
 
 ## Project structure
 
-- `apps/portal` – main app, uses shadcn UI from `@my-mono-fe/ui`
-- `apps/admin` – admin app
-- `libs/shared/ui` – shared UI library, exported as the `@my-mono-fe/ui` package
-- `Taskfile.yml` – central place for dev/build/test/lint/generate commands
-- `Dockerfile` + `nginx.conf` – build and serve `portal` as a static site via NGINX
+```
+apps/portal            # portal app          (dev 4200 / preview 4201)
+apps/admin             # admin app           (dev 4300 / preview 4301)
+libs/shared/env        # @my-mono-fe/env        – Zod env validation
+libs/shared/state      # @my-mono-fe/state      – store factory, slices, RTK Query
+libs/shared/ui         # @my-mono-fe/ui         – shadcn components + Tailwind v4 theme
+libs/shared/constants  # @my-mono-fe/constants  – cross-app constants
+libs/shared/utils      # @my-mono-fe/utils      – pure logic helpers
+Dockerfile + nginx.conf  # build and serve an app as a static site via NGINX
+```
+
+Conventions (workspace packages, store factory, Tailwind v4 theming, version
+pins) are documented in [AGENTS.md](AGENTS.md).
 
 ---
 

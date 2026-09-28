@@ -1,6 +1,7 @@
 /// <reference types='vitest' />
-import { defineConfig } from 'vite';
+import { defineConfig, defaultClientConditions } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import * as path from 'path';
 
 export default defineConfig(() => ({
@@ -11,21 +12,19 @@ export default defineConfig(() => ({
     host: 'localhost',
   },
   preview: {
-    port: 4300,
+    port: 4301,
     host: 'localhost',
   },
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   resolve: {
+    // shadcn convention: `@` points at the ui lib source. Vite does not read
+    // tsconfig paths, so this alias mirrors `@/components/*` + `@/lib/utils`.
     alias: {
-      '@my-mono-fe/shared/state': path.resolve(
-        import.meta.dirname,
-        '../../libs/shared/state/src',
-      ),
-      '@my-mono-fe/shared/env': path.resolve(
-        import.meta.dirname,
-        '../../libs/shared/env/src',
-      ),
+      '@': path.resolve(import.meta.dirname, '../../libs/shared/ui/src'),
     },
+    // Workspace libs (@my-mono-fe/*) publish their TS source under
+    // this package.json export condition - see tsconfig.base customConditions.
+    conditions: [...defaultClientConditions, '@my-mono-fe/source'],
   },
   // Uncomment this if you are using workers.
   // worker: {

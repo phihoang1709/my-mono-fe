@@ -1,5 +1,10 @@
 {
   "name": "@my-mono-fe/portal",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@my-mono-fe/env": "workspace:*",
+    "@my-mono-fe/state": "workspace:*",
+    "@my-mono-fe/ui": "workspace:*"
+  }
 }

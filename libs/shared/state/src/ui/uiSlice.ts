@@ -26,5 +26,4 @@ const uiSlice = createSlice({
 });
 
 export const { setTheme, toggleSidebar } = uiSlice.actions;
-export default uiSlice.reducer;
-
+export const uiReducer = uiSlice.reducer;

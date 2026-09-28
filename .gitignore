@@ -34,6 +34,11 @@ yarn-error.log
 testem.log
 /typings
 
+# AI tooling local state
+.opencode/
+.mimosa/
+.zcode/
+
 # System Files
 .DS_Store
 Thumbs.db
@@ -49,3 +54,11 @@ vitest.config.*.timestamp*
 .env.*.local
 !.env.example
 !.env.test
+
+.claude/worktrees
+.claude/settings.local.json
+.nx/polygraph
+.nx/self-healing
+.nx/migrate-runs
+# Nx one-off migration prompts
+tools/ai-migrations/

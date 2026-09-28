@@ -4,7 +4,8 @@
     "outDir": "dist",
     "types": ["node"],
     "rootDir": "src",
-    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo"
+    "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+    "ignoreDeprecations": "6.0"
   },
   "exclude": [
     "out-tsc",
@@ -21,10 +22,5 @@
     "eslint.config.cjs",
     "eslint.config.mjs"
   ],
-  "include": [
-    "src/**/*.js",
-    "src/**/*.jsx",
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ]
+  "include": ["src/**/*.js", "src/**/*.jsx", "src/**/*.ts", "src/**/*.tsx"]
 }

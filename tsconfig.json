@@ -17,6 +17,15 @@
     },
     {
       "path": "./libs/shared/env"
+    },
+    {
+      "path": "./libs/shared/constants"
+    },
+    {
+      "path": "./libs/shared/utils"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  }
 }
